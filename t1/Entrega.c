@@ -33,7 +33,7 @@ int world_rank;
 MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 int world_size;
 MPI_Comm_size(MPI_COMM_WORLD, &world_size);
-int up, down, left, right, x0, x1, y0, y1, i=1, j=1, n=0;
+int up, down,a,left, right, x0, x1, y0, y1, i=1, j=1, n=0;
 double average;
 
 a= m*m/world_size;
@@ -49,12 +49,13 @@ y1 = m/2 + d/(h*2) - 1;
 double *V_new = malloc(m*m*sizeof(double));
 double *V_sub = malloc(a*sizeof(double));
 double *V = malloc(m*m*sizeof(double));
+double *V1 = malloc(m*m*sizeof(double));
 
 while(n,N)
 {
-	V= init(x0,x1,yo,y1,V);
+	V= init(x0,x1,y0,y1,V);
 	
-	if (world_class == 0)
+	if (world_rank == 0)
 	{
 		int p=0;
 		for(i=0 ; i <m+a+1 ; i++)
@@ -76,7 +77,7 @@ while(n,N)
 		} 
 	}
 
-	if (!(world_rank==0 && worl_rank == world_size))
+	if (!(world_rank==0 && world_rank == world_size))
 	{
 		int c=0;
 		for(i= a*(world_rank)-m ; i <m+(1+world_rank)*a ; i++)
@@ -121,12 +122,14 @@ while(n,N)
 			k+=1;
 		} 	
 	}
-	MPI_ALLgather(V_sub,a,MPI_DOUBLE,V,a,MPI_DOUBLE,MPI_COMM_WORLD);
+	
+	MPI_Allgather(V_new,a,MPI_DOUBLE,V1,a,MPI_DOUBLE,MPI_COMM_WORLD);
 	n=+1;	
 }	
 for(i=0 ; i <m*m ;i++)
 {
 	printf("%f\n", V[i]);
 }
+MPI_Finalize();
 return 0;
 }
