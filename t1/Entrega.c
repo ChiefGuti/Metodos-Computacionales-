@@ -60,7 +60,7 @@ while(n<N)
 		
 		for(i=0 ; i <m+a+1 ; i++)
 		{
-			V_sub[p]=V[i];
+			V_sub[i]=V[i];
 			
 		}
 
@@ -73,7 +73,7 @@ while(n<N)
 				left=i-1;
 				right=i+1;
 				average = (V_sub[up]+ V_sub[down] + V_sub[left] + V_sub[right])/4;
-				V_new[q]=average;
+				V_new[i]=average;
 				}
 			else
 				{	
@@ -92,7 +92,7 @@ while(n<N)
 		}
 
 
-		int l=0;
+		int s=0;
 		for(i=m+1 ; i<a+1 ; i++)
 		{
 			up=i-m;
@@ -100,19 +100,19 @@ while(n<N)
 			left=i-1;
 			right=i+1;
 			average = (V_sub[up]+ V_sub[down] + V_sub[left] + V_sub[right])/4;
-			V_new[l]=average;
-			l+=1;
+			V_new[s]=average;
+			s+=1;
 		} 
 	
 	}
 
 	if(world_rank==world_size)
 	{
-		int h=0;
+		int f=0;
 		for(i=a*world_rank-m ; i <m*m ; i++)
 		{
-			V_sub[h]=V[i];
-			h+=1;
+			V_sub[f]=V[i];
+			f+=1;
 		}
 	
 		int k=0;
